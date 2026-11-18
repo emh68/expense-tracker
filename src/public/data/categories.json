@@ -1,0 +1,10 @@
+[
+  { "id": "groceries", "name": "Groceries" },
+  { "id": "dining", "name": "Dining Out" },
+  { "id": "transportation", "name": "Transportation" },
+  { "id": "utilities", "name": "Bills & Utilities" },
+  { "id": "shopping", "name": "Shopping" },
+  { "id": "entertainment", "name": "Entertainment" },
+  { "id": "health", "name": "Health" },
+  { "id": "other", "name": "Other" }
+]
