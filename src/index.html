@@ -7,15 +7,116 @@
     <title>Dashboard | Expense Tracker</title>
     <link rel="stylesheet" href="/css/style.css" />
     <script type="module" src="/js/app.mjs"></script>
+    <script type="module" src="/js/dashboard.mjs"></script>
 </head>
 
 <body>
     <div class="app-layout">
         <aside id="sidebar"></aside>
-
         <main class="main-content">
-            <h1>Dashboard</h1>
-            <p>Track your spending and stay on budget.</p>
+            <header class="dashboard-header">
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Track your spending and stay on budget.</p>
+                </div>
+
+                <div class="dashboard-actions">
+                    <label for="month-picker" class="visually-hidden">
+                        Select month
+                    </label>
+                    <input type="month" id="month-picker" />
+
+                    <a href="/transactions/" class="add-expense-btn">
+                        <i data-lucide="plus"></i>
+                        Add Expense
+                    </a>
+                </div>
+            </header>
+
+            <!-- Summary cards -->
+            <section class="summary-grid" aria-label="Monthly summary">
+                <article class="summary-card">
+                    <div class="summary-icon icon-blue">
+                        <i data-lucide="wallet"></i>
+                    </div>
+                    <div>
+                        <h2>Monthly Spending</h2>
+                        <p id="monthly-spending">$0.00</p>
+                    </div>
+                </article>
+                <article class="summary-card">
+                    <div class="summary-icon icon-purple">
+                        <i data-lucide="calendar-days"></i>
+                    </div>
+                    <div>
+                        <h2>Monthly Budget</h2>
+                        <p id="monthly-budget">Not set</p>
+                    </div>
+                </article>
+                <article class="summary-card">
+                    <div class="summary-icon icon-green">
+                        <i data-lucide="target"></i>
+                    </div>
+                    <div>
+                        <h2>Remaining Budget</h2>
+                        <p id="remaining-budget">—</p>
+                    </div>
+                </article>
+                <article class="summary-card">
+                    <div class="summary-icon icon-blue">
+                        <i data-lucide="receipt-text"></i>
+                    </div>
+                    <div>
+                        <h2>Transactions</h2>
+                        <p id="transaction-count">0</p>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Charts -->
+            <section class="charts-grid">
+                <article class="dashboard-card">
+                    <h2>Spending by Category</h2>
+                    <div class="chart-placeholder" id="category-chart">
+                        Category chart will appear here.
+                    </div>
+                </article>
+                <article class="dashboard-card">
+                    <div class="card-heading">
+                        <h2>Expense Trends</h2>
+                        <select id="trend-period" aria-label="Trend period">
+                            <option value="3">Last 3 Months</option>
+                            <option value="6" selected>Last 6 Months</option>
+                            <option value="12">Last 12 Months</option>
+                        </select>
+                    </div>
+                    <div class="chart-placeholder" id="trends-chart">
+                        Expense trends chart will appear here.
+                    </div>
+                </article>
+            </section>
+
+            <!-- Recent transactions and budgets -->
+            <section class="details-grid">
+                <article class="dashboard-card">
+                    <div class="card-heading">
+                        <h2>Recent Transactions</h2>
+                        <a href="/transactions/">View All</a>
+                    </div>
+                    <div id="recent-transactions">
+                        No transactions yet.
+                    </div>
+                </article>
+                <article class="dashboard-card">
+                    <div class="card-heading">
+                        <h2>Monthly Budgets</h2>
+                        <a href="/budgets/">Manage Budgets</a>
+                    </div>
+                    <div id="budget-progress">
+                        No budgets configured yet.
+                    </div>
+                </article>
+            </section>
         </main>
     </div>
 </body>
