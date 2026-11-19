@@ -1,11 +1,47 @@
 <div class="sidebar-header">
-    <h2>Expense Tracker</h2>
+    <div class="brand-bars" aria-hidden="true">
+        <span class="bar-short"></span>
+        <span class="bar-middle"></span>
+        <span class="bar-tall"></span>
+    </div>
+
+    <h2>Expense<br />Tracker</h2>
 </div>
 
 <nav aria-label="Main navigation">
-    <a href="/">Dashboard</a>
-    <a href="/transactions/">Transactions</a>
-    <a href="/budgets/">Budgets</a>
-    <a href="/reports/">Reports</a>
-    <a href="/settings/">Settings</a>
+    <a class="nav-link" href="/">
+        <i data-lucide="house"></i>
+        <span>Dashboard</span>
+    </a>
+
+    <a class="nav-link" href="/transactions/">
+        <i data-lucide="list"></i>
+        <span>Transactions</span>
+    </a>
+
+    <a class="nav-link" href="/budgets/">
+        <i data-lucide="chart-pie"></i>
+        <span>Budgets</span>
+    </a>
+
+    <a class="nav-link" href="/reports/">
+        <i data-lucide="chart-no-axes-column"></i>
+        <span>Reports</span>
+    </a>
+
+    <a class="nav-link" href="/settings/">
+        <i data-lucide="settings"></i>
+        <span>Settings</span>
+    </a>
 </nav>
+
+<svg class="sidebar-waves" viewBox="0 0 240 180" preserveAspectRatio="none" aria-hidden="true">
+    <path fill="var(--wave-dark)" d="M0 135 C35 115 55 95 80 116
+       S115 165 145 95
+       S195 120 240 30
+       L240 180 L0 180 Z" />
+    <path fill="var(--wave-light)" d="M0 160 C30 154 48 132 74 145
+       S120 130 150 105
+       S190 122 240 75
+       L240 180 L0 180 Z" opacity="0.65" />
+</svg>
