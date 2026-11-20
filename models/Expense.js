@@ -37,17 +37,6 @@ const expenseSchema = new mongoose.Schema(
       trim: true,
       default: "",
     },
-    merchant: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    notes: {
-      type: String,
-      trim: true,
-      default: "",
-    },
   },
   {
     timestamps: true,

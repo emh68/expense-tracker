@@ -18,10 +18,11 @@ const userSchema = new mongoose.Schema(
       sparse: true,
       lowercase: true,
       trim: true,
+      required: true,
     },
   },
   {
-    timeStamps: true,
+    timestamps: true,
   },
 );
 const User = mongoose.model("User", userSchema);

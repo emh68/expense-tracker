@@ -1,6 +1,6 @@
 import "dotenv/config";
 import mongoose from "mongoose";
-5;
+
 const connectDB = async () => {
   try {
     const uri = process.env.MONGODB_URI;
@@ -9,7 +9,7 @@ const connectDB = async () => {
     }
     await mongoose.connect(uri, {
       dbName: "expense_tracker",
-      serverSelectionTimeoutMs: 10000,
+      serverSelectionTimeoutMS: 10000,
     });
     console.log(`Mongo connected: ${mongoose.connection.name}`);
   } catch (error) {
