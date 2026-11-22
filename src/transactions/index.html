@@ -1,23 +1,45 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Transactions | Expense Tracker</title>
     <link rel="stylesheet" href="/css/style.css" />
     <script type="module" src="/js/app.mjs"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="app-layout">
-        <aside id="sidebar"></aside>
+      <aside id="sidebar"></aside>
 
-        <main class="main-content">
-            <h1>Transactions</h1>
-            <p>View and manage your expenses.</p>
-        </main>
+      <main class="main-content">
+        <h1>Transactions</h1>
+        <p>View and manage your expenses.</p>
+        <h2>Add Expense</h2>
+        <form class="expenseForm">
+          <label for="expenseDate">Date</label>
+          <input type="date" id="expenseDate" />
+          <label for="categoryId">Category</label>
+          <select name="category" id="categoryId">
+            <option value="general">Select Category</option>
+            <option value="groceries">Groceries</option>
+            <option value="dining">Dining</option>
+            <option value="transportation">Transportation</option>
+            <option value="utilities">Utilites</option>
+            <option value="shopping">Shopping</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="health">Health</option>
+            <option value="other">Other</option>
+          </select>
+          <label for="expenseAmount">Amount</label>
+          <input type="number" name="amount" id="expenseAmount" />
+          <label for="merchant">Store/Location</label>
+          <input type="text" id="merchant" />
+          <label for="notes">Notes</label>
+          <textarea name="notes" id="notes"></textarea>
+          <button type="submit" class="submitExpense">Add Expense</button>
+        </form>
+      </main>
     </div>
-</body>
-
+  </body>
 </html>
