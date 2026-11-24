@@ -2,7 +2,9 @@ import express from "express";
 import connectDB from "./config/db.js";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import apiRoutes from "./routes/apiRoutes.js";
+import expenseRoutes from "./routes/expenseRoutes.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger.json" with { type: "json" };
 
 const app = express();
 
@@ -11,7 +13,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(express.json());
-app.use("/api", apiRoutes);
+app.get("/api/health", (req, res) => {
+  res.json({ message: "Expense Tracker API is running" });
+});
+
+app.use("/api", expenseRoutes);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Serve the built frontend from Vite.
 const distPath = path.join(__dirname, "dist");
