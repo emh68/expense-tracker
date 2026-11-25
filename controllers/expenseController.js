@@ -42,7 +42,7 @@ export async function getExpenses(req, res) {
 
 export async function updateExpense(req, res) {
   const { expenseId } = req.params;
-  //this line is commented out until we implement Authentication or PATCH it will crash at runtime
+  //this line is commented out until we implement Authentication or PATCH will crash at runtime
   //const userId = req.user._id;
   const { userId } = req.query;
 
@@ -95,8 +95,28 @@ export async function updateExpense(req, res) {
   }
 }
 
-/*export async function deleteExpense (req,res){
-    const expenseId = req.params;
-    const { userId } = req.query;
+export async function deleteExpense(req, res) {
+  const { expenseId } = req.params;
+  const { userId } = req.query;
 
-}*/
+  if (!mongoose.isObjectIdOrHexString(expenseId)) {
+    return res.status(400).json({ error: "A valid expenseId is required." });
+  }
+
+  if (!mongoose.isObjectIdOrHexString(userId)) {
+    return res.status(400).json({ error: "A valid userId is required." });
+  }
+
+  try {
+    const expense = await Expense.deleteOne({ _id: expenseId, userId });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: "Expense not found." });
+    }
+
+    return res.status(200).json(expense);
+  } catch (error) {
+    console.error("Could not delete expenses:", error);
+    return res.status(500).json({ error: "Could not delete expenses." });
+  }
+}
