@@ -1,23 +1,33 @@
 import express from "express";
+import "dotenv/config";
 import connectDB from "./config/db.js";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import expenseRoutes from "./routes/expenseRoutes.js";
+import apiRoutes from "./routes/index.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "./swagger.json" with { type: "json" };
+import passport from "./config/passport.js";
+import { sessionMiddleware } from "./config/session.js";
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Trust Render's reverse proxy in production
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
 
 // Determine the root directory of the project.
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(express.json());
-app.get("/api/health", (req, res) => {
-  res.json({ message: "Expense Tracker API is running" });
-});
+//comfigure middleware session
+app.use(sessionMiddleware);
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.use("/api", expenseRoutes);
+app.use("/api", apiRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Serve the built frontend from Vite.
@@ -26,8 +36,6 @@ app.use(express.static(distPath));
 
 try {
   await connectDB();
-
-  const PORT = process.env.PORT || 3000;
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on port ${PORT}`);
