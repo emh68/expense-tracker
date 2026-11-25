@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createExpense,
+  deleteExpense,
   getExpenses,
   updateExpense,
 } from "../controllers/expenseController.js";
@@ -31,5 +32,5 @@ router.patch(
   */
   updateExpense,
 );
-
+router.delete("/expenses/:expenseId", deleteExpense);
 export default router;

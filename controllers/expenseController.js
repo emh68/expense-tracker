@@ -108,13 +108,13 @@ export async function deleteExpense(req, res) {
   }
 
   try {
-    const expense = await Expense.deleteOne({ _id: expenseId, userId });
+    const result = await Expense.deleteOne({ _id: expenseId, userId });
 
     if (result.deletedCount === 0) {
       return res.status(404).json({ error: "Expense not found." });
     }
 
-    return res.status(200).json(expense);
+    return res.status(200).json({ message: "Expense deleted successfully" });
   } catch (error) {
     console.error("Could not delete expenses:", error);
     return res.status(500).json({ error: "Could not delete expenses." });
