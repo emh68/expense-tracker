@@ -2,7 +2,8 @@ import Expense from "../models/Expense.js";
 import mongoose from "mongoose";
 
 export async function createExpense(req, res) {
-  const { userId, categoryId, expenseDate, amountCents, merchant, notes } =
+  const userId = req.user._id;
+  const { categoryId, expenseDate, amountCents, merchant, notes } =
     req.body ?? {};
   try {
     const expense = await Expense.create({
@@ -15,21 +16,13 @@ export async function createExpense(req, res) {
     });
     return res.status(201).json(expense);
   } catch (error) {
-    if (error.name === "ValidationError") {
-      return res.status(400).json({ error: error.message });
-    }
-
     console.error("Could not save expense:", error);
     return res.status(500).json({ error: "Could not save expense." });
   }
 }
 
 export async function getExpenses(req, res) {
-  const { userId } = req.query;
-
-  if (!mongoose.isObjectIdOrHexString(userId)) {
-    return res.status(400).json({ error: "A valid userId is required." });
-  }
+  const userId = req.user._id;
 
   try {
     const expenses = await Expense.find({ userId }).sort({ expenseDate: -1 });
@@ -44,14 +37,9 @@ export async function updateExpense(req, res) {
   const { expenseId } = req.params;
   //this line is commented out until we implement Authentication or PATCH will crash at runtime
   //const userId = req.user._id;
-  const { userId } = req.query;
-
+  const userId = req.user._id;
   if (!mongoose.isObjectIdOrHexString(expenseId)) {
     return res.status(400).json({ error: "A valid expenseId is required." });
-  }
-
-  if (!mongoose.isObjectIdOrHexString(userId)) {
-    return res.status(400).json({ error: "A valid userId is required." });
   }
 
   const editableFields = [
@@ -97,14 +85,9 @@ export async function updateExpense(req, res) {
 
 export async function deleteExpense(req, res) {
   const { expenseId } = req.params;
-  const { userId } = req.query;
-
+  const userId = req.user._id;
   if (!mongoose.isObjectIdOrHexString(expenseId)) {
     return res.status(400).json({ error: "A valid expenseId is required." });
-  }
-
-  if (!mongoose.isObjectIdOrHexString(userId)) {
-    return res.status(400).json({ error: "A valid userId is required." });
   }
 
   try {
