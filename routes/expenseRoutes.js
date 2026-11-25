@@ -5,13 +5,15 @@ import {
   getExpenses,
   updateExpense,
 } from "../controllers/expenseController.js";
+import requireAuth from "../middleware/requireAuth.js";
 
 const router = Router();
 
-router.post("/expenses", createExpense);
-router.get("/expenses", getExpenses);
+router.post("/expenses", requireAuth, createExpense);
+router.get("/expenses", requireAuth, getExpenses);
 router.patch(
   "/expenses/:expenseId",
+  requireAuth,
   /*
     #swagger.parameters['userId'] = {
       in: 'query',
@@ -32,5 +34,5 @@ router.patch(
   */
   updateExpense,
 );
-router.delete("/expenses/:expenseId", deleteExpense);
+router.delete("/expenses/:expenseId", requireAuth, deleteExpense);
 export default router;

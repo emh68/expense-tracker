@@ -8,6 +8,7 @@ export const sessionMiddleware = session({
 
   store: MongoStore.create({
     mongoUrl: process.env.MONGODB_URI,
+    dbName: "expense_tracker",
   }),
 
   cookie: {

@@ -39,7 +39,7 @@ router.get("/auth/me", (req, res) => {
     message: "Authenticated",
     user: {
       id: req.user.id,
-      displayName: req.user.displayName,
+      displayName: req.user.name,
     },
   });
 });
