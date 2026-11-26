@@ -335,10 +335,109 @@ body {
   text-align: center;
 }
 
+#category-chart {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-height: 260px;
+  height: auto;
+  text-align: left;
+}
+
+.category-chart-visual {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  flex: 0 0 220px;
+}
+
+.category-legend {
+  display: flex;
+  flex: 1 1 220px;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.category-legend-row {
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr) 50px 75px;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.category-color-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.category-legend-name {
+  min-width: 0;
+}
+
+.category-legend-percent {
+  color: var(--secondary-text);
+  text-align: right;
+}
+
+.category-legend-amount {
+  text-align: right;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 #recent-transactions,
 #budget-progress {
   margin-top: 20px;
   color: var(--secondary-text);
+}
+
+
+.budget-row {
+  margin-bottom: 18px;
+}
+
+.budget-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.budget-details strong {
+  color: var(--text);
+}
+
+.budget-track {
+  height: 10px;
+  background: #dce7f5;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.budget-fill {
+  height: 100%;
+  background: var(--primary-blue);
+  border-radius: 10px;
+}
+
+.budget-percentage {
+  display: block;
+  margin-top: 5px;
+  text-align: right;
+  font-size: 12px;
+}
+
+.budget-details .over-budget,
+.budget-percentage.over-budget {
+  color: #e11d48;
 }
 
 .transaction-row {
