@@ -4,6 +4,12 @@ import { resolve } from "node:path";
 export default defineConfig({
   root: "src",
 
+    server: {
+    proxy: {
+      "/api": "http://localhost:3000",
+    },
+  },
+
   build: {
     outDir: "../dist",
     emptyOutDir: true,
