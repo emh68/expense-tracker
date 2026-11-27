@@ -2,6 +2,7 @@ import { formatCurrency } from "./currency.mjs";
 import { getAllExpenses, getBudgets, getCategories } from "./expenseData.mjs";
 import Chart from "chart.js/auto";
 import { getCategoryColor } from "./categoryColors.mjs";
+import { getTrendMonths, renderTrendsChart } from "./trends.mjs";
 
 export function expensesForMonth(expenses, month) {
   return expenses.filter((expense) =>
@@ -80,6 +81,10 @@ export function renderCategoryChart(expenses, categories) {
   }
 
   container.append(chartArea, legend);
+  const styles = getComputedStyle(document.documentElement);
+  const textColor = styles.getPropertyValue("--text").trim();
+  const secondaryTextColor = styles.getPropertyValue("--secondary-text").trim();
+  const fontFamily = getComputedStyle(document.body).fontFamily;
 
   const centerText = {
     id: "categoryCenterText",
@@ -91,11 +96,11 @@ export function renderCategoryChart(expenses, categories) {
       ctx.save();
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillStyle = "#1e293b";
-      ctx.font = "bold 18px Arial";
+      ctx.fillStyle = textColor;
+      ctx.font = `bold 18px ${fontFamily}`;
       ctx.fillText(formatCurrency(totalCents), x, y - 12);
-      ctx.font = "12px Arial";
-      ctx.fillStyle = "#64748b";
+      ctx.font = `12px ${fontFamily}`;
+      ctx.fillStyle = secondaryTextColor;
       ctx.fillText("Total", x, y + 12);
       ctx.restore();
     },
@@ -251,7 +256,34 @@ function renderDashboard(expenses, budgets, categories, month) {
   renderBudgets(monthlyBudgets, categoryNames, categoryTotals, categories);
 
   renderCategoryChart(monthly, categories);
-  setText("trends-chart", "Expense trends chart is not connected yet.");
+}
+
+let trendExpenses = [];
+let trendBudgets = new Map();
+let trendBudgetsAvailable = false;
+let trendRequest = 0;
+
+async function updateTrends() {
+  const period = document.getElementById("trend-period")?.value || "6";
+  const request = ++trendRequest;
+
+  if (trendBudgetsAvailable) {
+    const months = getTrendMonths(period);
+    const missing = months.filter((month) => !trendBudgets.has(month));
+    const results = await Promise.allSettled(missing.map(getBudgets));
+
+    if (request !== trendRequest) return;
+
+    results.forEach((result, index) => {
+      if (result.status === "fulfilled" && Array.isArray(result.value)) {
+        trendBudgets.set(missing[index], result.value);
+      }
+    });
+  }
+
+  if (request === trendRequest) {
+    renderTrendsChart(trendExpenses, trendBudgets, period);
+  }
 }
 
 async function loadDashboard() {
@@ -283,12 +315,25 @@ async function loadDashboard() {
 
     renderDashboard(expenses, budgets, categories, month);
 
+    trendExpenses = expenses;
+    trendBudgetsAvailable = budgetsLoaded;
+    if (budgetsLoaded) {
+      trendBudgets.set(month, budgets);
+    } else {
+      trendBudgets.clear();
+    }
+    updateTrends();
+
     if (!budgetsLoaded) {
       setText("monthly-budget", "Unavailable");
       setText("remaining-budget", "—");
       setText("budget-progress", "Budget data is not available yet.");
     }
   } catch (error) {
+    ++trendRequest;
+    trendExpenses = [];
+    trendBudgetsAvailable = false;
+    trendBudgets.clear();
     console.error("Unable to load dashboard:", error);
 
     setText("monthly-spending", "—");
@@ -302,13 +347,13 @@ async function loadDashboard() {
   }
 }
 
-
 function initDashboard() {
   const monthPicker = document.getElementById("month-picker");
   if (!monthPicker) return;
   const today = new Date();
   monthPicker.value = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`;
   monthPicker.addEventListener("change", loadDashboard);
+  document.getElementById("trend-period")?.addEventListener("change", updateTrends);
   loadDashboard();
 }
 

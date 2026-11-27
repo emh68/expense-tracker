@@ -6,6 +6,9 @@
   --text: #1e293b;
   --secondary-text: #64748b;
   --white: #ffffff;
+  --trend-spending: #9333ea;
+  --trend-budget: #1d4ed8;
+  --negative-amount: #e11d48;
 
   /* Sidebar decorative waves */
   --wave-light: #1f417a;
@@ -391,6 +394,63 @@ body {
   white-space: nowrap;
 }
 
+.trends-chart-visual {
+  position: relative;
+  width: 100%;
+  height: 260px;
+}
+
+
+#trends-chart {
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trends-legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  color: var(--secondary-text);
+  font-size: 13px;
+}
+
+.trends-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.trends-legend-spending {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  background: var(--trend-spending);
+}
+
+.trends-legend-line {
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 2px;
+  margin: 0 2px;
+  background: var(--trend-budget);
+}
+
+.trends-legend-line::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--trend-budget);
+  border-radius: 50%;
+  background: var(--white);
+  transform: translate(-50%, -50%);
+}
+
 #recent-transactions,
 #budget-progress {
   margin-top: 20px;
@@ -437,7 +497,7 @@ body {
 
 .budget-details .over-budget,
 .budget-percentage.over-budget {
-  color: #e11d48;
+  color: var(--negative-amount);
 }
 
 .transaction-row {
@@ -458,7 +518,7 @@ body {
 }
 
 .transaction-amount {
-  color: #e11d48;
+  color: var(--negative-amount);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -478,7 +538,10 @@ body {
   }
 }
 
+/* Mobile layout */
+
 @media (max-width: 700px) {
+
   .dashboard-header {
     flex-direction: column;
     align-items: stretch;
@@ -499,11 +562,6 @@ body {
   .summary-card {
     min-height: 100px;
   }
-}
-
-/* Mobile layout */
-
-@media (max-width: 700px) {
   .app-layout {
     flex-direction: column;
   }
