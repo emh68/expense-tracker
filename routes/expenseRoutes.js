@@ -15,11 +15,6 @@ router.patch(
   "/expenses/:expenseId",
   requireAuth,
   /*
-    #swagger.parameters['userId'] = {
-      in: 'query',
-      required: true,
-      type: 'string'
-    }
     #swagger.parameters['body'] = {
       in: 'body',
       required: true,
