@@ -107,6 +107,7 @@ export async function updateCategory(req, res) {
     return res.status(500).json({ error: "Could not update category." });
   }
 }
+
 export async function deleteCategory(req, res) {
   const { categoryId } = req.params;
   const userId = req.user._id;
